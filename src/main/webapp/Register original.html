@@ -1,0 +1,239 @@
+
+<html>
+  <head>  
+  
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
+    
+    <title>AngularJS $http Rest example</title>  
+ <script type="text/javascript">
+            var app = angular.module("UserManagement", []);
+         
+            //Controller Part
+            app.controller("NewUserController", function($scope, $http) {
+              $scope.devotees = [];
+                $scope.newDevoteeForm = {
+                    id : -1,
+                    name : "",
+                    age : "",
+                    email:"",
+                    phone:""
+                };
+         
+                //Now load the data from server
+              //  _refreshDevoteeData();
+         
+                //HTTP POST/PUT methods for add/edit country 
+                // with the help of id, we are going to find out whether it is put or post operation
+                
+                $scope.submitUser = function() {
+         
+                    var method = "";
+                    var url = "";
+                    if ($scope.newDevoteeForm.id == -1) {
+                        //Id is absent in form data, it is create new country operation
+                        method = "POST";
+                        url = 'rest/devotees';
+                    } else {
+                        //Id is present in form data, it is edit country operation
+                        method = "PUT";
+                        url = 'rest/devotees';
+                    }
+         
+                    $http({
+                        method : method,
+                        url : url,
+                        data : angular.toJson($scope.newDevoteeForm),
+                        headers : {
+                            'Content-Type' : 'application/json'
+                        }
+                    }).then( _success, _error );
+                };
+         
+                //HTTP DELETE- delete country by Id
+//                 $scope.deleteCountry = function(country) {
+//                     $http({
+//                         method : 'DELETE',
+//                         url : 'rest/devotees/' + country.id
+//                     }).then(_success, _error);
+//                 };
+ 
+//              // In case of edit, populate form fields and assign form.id with country id
+//                 $scope.editCountry = function(country) {
+                  
+//                     $scope.newDevoteeForm.countryName = country.countryName;
+//                     $scope.newDevoteeForm.population = country.population;
+//                     $scope.newDevoteeForm.id = country.id;
+//                 };
+         
+                /* Private Methods */
+                //HTTP GET- get all countries collection
+                function _refreshDevoteeData() {
+                    $http({
+                        method : 'GET',
+                       // url : 'http://localhost:8080/krishna/rest/countries'
+                    	url:'http://ramsiyaram.us-east-2.elasticbeanstalk.com/rest/countries'
+                    }).then(function successCallback(response) {
+                        $scope.devotees = response.data;
+                    }, function errorCallback(response) {
+                        console.log(response.statusText);
+                    });
+                }
+         
+                function _success(response) {
+                    _refreshDevoteeData();
+                    _clearFormData()
+                }
+         
+                function _error(response) {
+                    console.log(response.statusText);
+                }
+         
+                //Clear the form
+                function _clearFormData() {
+                    $scope.newDevoteeForm.id = -1;
+                    $scope.newDevoteeForm.name = "";
+					 $scope.newDevoteeForm.age = "";
+                    $scope.newDevoteeForm.email = "";
+                    $scope.newDevoteeForm.phone = "";
+                };
+            });
+        </script>
+        <style>
+           
+.blue-button{
+	background: #25A6E1;
+	filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#25A6E1',endColorstr='#188BC0',GradientType=0);
+	padding:3px 5px;
+	color:#fff;
+	font-family:'Helvetica Neue',sans-serif;
+	font-size:12px;
+	border-radius:2px;
+	-moz-border-radius:2px;
+	-webkit-border-radius:4px;
+	border:1px solid #1A87B9
+}     
+
+.red-button{
+	background: #CD5C5C;
+
+	padding:3px 5px;
+	color:#fff;
+	font-family:'Helvetica Neue',sans-serif;
+	font-size:12px;
+	border-radius:2px;
+	-moz-border-radius:2px;
+	-webkit-border-radius:4px;
+	border:1px solid #CD5C5C
+}      
+
+table {
+  font-family: "Helvetica Neue", Helvetica, sans-serif;
+   width: 50%;
+}
+
+caption {
+  text-align: left;
+  color: silver;
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 5px;
+}
+
+th {
+  background: SteelBlue;
+  color: white;
+}
+
+
+tbody tr:nth-child(even) {
+  background: WhiteSmoke;
+}
+
+tbody tr td:nth-child(2) {
+  text-align:center;
+}
+
+tbody tr td:nth-child(3),
+tbody tr td:nth-child(4) {
+  text-align: center;
+  font-family: monospace;
+}
+
+tfoot {
+  background: SeaGreen;
+  color: white;
+  text-align: right;
+}
+
+tfoot tr th:last-child {
+  font-family: monospace;
+}
+
+            td,th{
+                border: 1px solid gray;
+                width: 25%;
+                text-align: left;
+                padding: 5px 10px;
+            }
+          
+            
+            
+        </style>
+    <head>
+    <body ng-app="UserManagement" ng-controller="NewUserController">
+         <h1>
+           Register With Us 
+        </h1> 
+        <form ng-submit="submitUser()">
+            <table>
+               
+                <tr>
+                    <th colspan="2">Register With Us</th>
+                 </tr>
+                <tr>
+                    <td>Name</td>
+                    <td><input type="text" ng-model="newDevoteeForm.name" /></td>
+                </tr>
+                 <tr>
+                    <td>Age</td>
+                    <td><input type="text" ng-model="newDevoteeForm.age" /></td>
+                </tr>
+                 <tr>
+                    <td>Email</td>
+                    <td><input type="text" ng-model="newDevoteeForm.email" /></td>
+                </tr>
+                 <tr>
+                    <td>Contact No.</td>
+                    <td><input type="text" ng-model="newDevoteeForm.phone" /></td>
+                </tr>
+              
+                <tr>
+                    <td colspan="2"><input type="submit" value="Submit" class="blue-button" /></td>
+                </tr>
+            </table>
+        </form>
+        <table>
+<!--             <tr> -->
+              
+<!--                 <th>CountryName</th> -->
+<!--                 <th>Population</th> -->
+<!--                 <th>Operations</th> -->
+               
+<!--             </tr> -->
+ 
+<!--             <tr ng-repeat="country in countries"> -->
+               
+<!--     <td> {{ country.countryName }}</td> -->
+<!--     <td >{{ country.population }}</td>   -->
+                
+<!--                 <td><a ng-click="editCountry(country)" class="blue-button">Edit</a> | <a ng-click="deleteCountry(country)" class="red-button">Delete</a></td> -->
+<!--             </tr> -->
+ 
+        </table>
+ 
+       
+ 
+       
+      
+  </body>
+</html>
