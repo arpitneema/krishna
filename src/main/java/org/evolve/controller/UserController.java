@@ -10,12 +10,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.evolve.model.Country;
+import org.evolve.model.CustomUrl;
 import org.evolve.model.Devotee;
 import org.evolve.service.CountryService;
 import org.evolve.service.Mailer;
-
+import org.evolve.service.PaymentService;
 @Path("/devotees")
 public class UserController {
 
@@ -42,15 +44,17 @@ public class UserController {
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
-	public Devotee addDevotee(Devotee newDevotee) {
-		String msg="Name"+newDevotee.getName()+" age: "+newDevotee.getAge()+" email: "+newDevotee.getEmail()+" contact"+newDevotee.getPhone();
+	public CustomUrl addDevotee(Devotee newDevotee) {
+		String msg="Names dfsdf"+newDevotee.getName()+" age: "+newDevotee.getAge()+" email: "+newDevotee.getEmail()+" contact"+newDevotee.getPhone();
 		    
 		System.out.println(newDevotee.getName());
-		 Mailer.send("radhekrishnaingokul@gmail.com","ramram0788","radheybhardwaj@gmail.com","New Devotee registered for JSD sessions",msg);  
+		// Mailer.send("radhekrishnaingokul@gmail.com","ramram0788","radheybhardwaj@gmail.com","New Devotee registered for JSD sessions",msg);  
 		    
 		System.out.println(newDevotee.getAge());
-	
-		return newDevotee;
+		PaymentService ps=new PaymentService();
+//		return newDevotee;
+	//	Response res=ps.initiatePayment();
+		return new CustomUrl(ps.initiatePayment(newDevotee));
 	}
 
 	/*@PUT

@@ -27,7 +27,7 @@
             var app = angular.module("UserManagement", []);
          
             //Controller Part
-            app.controller("NewUserController", function($scope, $http) {
+            app.controller("NewUserController", function($scope, $http, $window) {
               $scope.devotees = [];
                 $scope.newDevoteeForm = {
                     id : -1,
@@ -64,7 +64,7 @@
                         headers : {
                             'Content-Type' : 'application/json'
                         }
-                    }).then( _success, _error );
+                    }).then( _success, _error);
                 };
          
                 //HTTP DELETE- delete country by Id
@@ -98,13 +98,26 @@
                 }
          
                 function _success(response) {
-                    _refreshDevoteeData();
-                    _clearFormData()
+                	
+                	 $window.location.href= response.data.url;
+                	 /*  _clearFormData()
+                	 $window.alert(response.data);
+                	 $window.alert(); */
+                	 
+                    //_refreshDevoteeData();
+                  
                 }
          
-                function _error(response) {
+            function _error(response) {
+                	 $window.alert("Please enter  error new");
+                	  _clearFormData();
+                	 $window.alert(response.data);
+                	 $window.alert(response.headers);
+                	 $window.alert(response.data.headers);
+                	 $window.alert(response.headers.location);
+                   
                     console.log(response.statusText);
-                }
+                } 
          
                 //Clear the form
                 function _clearFormData() {
@@ -299,7 +312,9 @@ tfoot tr th:last-child {
                         </div>
             
                         <span class="input-group-btn">
-                            <button href="" type="submit" class="btn btn-primary btn-form display-4">SEND FORM</button>
+                            <button href="" type="submit" class="btn btn-primary btn-form display-4">SEND FORM
+                              <span><i class="glyphicon glyphicon-off"></i></span> 
+                            </button>
                         </span>
                     </form>
             </div>
