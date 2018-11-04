@@ -6,57 +6,33 @@ import com.instamojo.wrapper.exception.ConnectionException;
 import com.instamojo.wrapper.exception.InvalidPaymentOrderException;
 import com.instamojo.wrapper.model.PaymentOrder;
 import com.instamojo.wrapper.response.CreatePaymentOrderResponse;
+import com.instamojo.wrapper.response.PaymentOrderDetailsResponse;
 
-import java.net.URI;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.evolve.model.Country;
+import org.evolve.model.CustomUrl;
 import org.evolve.model.Devotee;
-import org.evolve.service.CountryService;
-import org.evolve.service.Mailer;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-
-@Path("/makepayment")
+import java.util.Random;
+@Path("/paymentservice")
 public class PaymentService {
 
 /*	public static void main(String a[]) {
 		initiatePayment();
 	}*/
+	public static Instamojo api=null;
 	
-	@POST
-	@Produces(MediaType.APPLICATION_JSON)
-	public  String initiatePayment(Devotee newDevotee) {
-
-		/***** Create a new payment order *******/
-		PaymentOrder order = new PaymentOrder();
-		order.setId("234502");
-		order.setName(newDevotee.getName());
-		order.setEmail(newDevotee.getEmail());
-		order.setPhone(newDevotee.getPhone());
-		order.setCurrency("INR");
-		order.setAmount(9D);
-		order.setDescription("This is a test transaction.");
-		order.setRedirectUrl("http://www.google.com");
-		order.setWebhookUrl("http://www.google.com/");
-		order.setTransactionId("dxg234560"+newDevotee.getName());
-		String clientid = "test_cEqSPWwz3OJjYvxuSEKj4AtK1vBwtELxc6A";
-		String clientsecret = "test_G4ftSco2jDbVo2Yy160qf9NzynhFAaG808CCiRedGAD5eQ6kFLuPiZ7UYJcClp0XiZbdZc5kx3U4Vfnn92s8gRfCIlwduySN2M3MfoIxCWLLxfd8YJZyjupeDo4";
-		String apiEndpoint = "https://test.instamojo.com/v2/";
-		String authEndPoint = "https://test.instamojo.com/oauth2/token/";
-
-		Instamojo api = null;
-
+	static {
+		String clientid = "mzUjiM9pldul0sBgFhnjH5eeckQWWXu3dCWkMLra";
+		String clientsecret = "BSChxNnrEZyCLmTonXR20fRdOgB9Ysr6v2DPT7XBCm7mgDcWDtUllNDssu6Cm54YqfeIhFhc2v0cplZuVQ2tdtWAp7g9eOXOnyyLATpaTJzWfzgXys7euGNNrLFZRO58";
+		String apiEndpoint = "https://api.instamojo.com/v2/";
+		String authEndPoint = "https://www.instamojo.com/oauth2/token/";
+	
 		try {
 			// gets the reference to the instamojo api
 			// api = InstamojoImpl.getApi("[CLIENT_ID]", "[CLIENT_SECRET]",
@@ -66,6 +42,58 @@ public class PaymentService {
 		} catch (ConnectionException e) {
 			// LOGGER.log(Level.SEVERE, e.toString(), e);
 		}
+		
+	}
+
+	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public String checkPaymentStatus(@QueryParam("myid") String transaction_id) {
+		System.out.println(transaction_id);
+		try {
+			 PaymentOrderDetailsResponse paymentOrder = api.getPaymentOrderDetailsByTransactionId(transaction_id);
+			 System.out.println(paymentOrder.toString());
+		
+		}
+		catch(Exception e) {
+			
+		}
+		
+		return null;
+	}
+	
+	
+	public  String initiatePayment(Devotee newDevotee) {
+		Random randomNum = new Random();
+		/***** Create a new payment order *******/
+		PaymentOrder order = new PaymentOrder();
+		order.setId(newDevotee.getPhone());
+		order.setName(newDevotee.getName());
+		order.setEmail(newDevotee.getEmail());
+		order.setPhone(newDevotee.getPhone());
+		order.setCurrency("INR");
+		if(newDevotee.getPhone().equals("919958877819")) {
+
+			order.setAmount(9D);	
+		}else 
+
+			order.setAmount(500.00);
+		order.setDescription("Initiatng Payment for"+ newDevotee.getEmail());
+		order.setRedirectUrl("http://www.evolvetoexcel.com/makepayment/afterpayment");
+		order.setWebhookUrl("http://www.evolvetoexcel.com/makepayment/afterpayment");
+		order.setTransactionId(newDevotee.getPhone()+randomNum.nextInt(1000));
+		System.out.println(order.toString());
+		//for test url
+		/*String clientid = "test_cEqSPWwz3OJjYvxuSEKj4AtK1vBwtELxc6A";
+		String clientsecret = "test_G4ftSco2jDbVo2Yy160qf9NzynhFAaG808CCiRedGAD5eQ6kFLuPiZ7UYJcClp0XiZbdZc5kx3U4Vfnn92s8gRfCIlwduySN2M3MfoIxCWLLxfd8YJZyjupeDo4";
+		String apiEndpoint = "https://test.instamojo.com/v2/";
+		String authEndPoint = "https://test.instamojo.com/oauth2/token/";
+		String apiEndpoint = "https://test.instamojo.com/v2/";
+		String authEndPoint = "https://test.instamojo.com/oauth2/token/";
+		
+		*/
+
+		
 
 		boolean isOrderValid = order.validate();
 
@@ -125,6 +153,6 @@ public class PaymentService {
 				System.out.println("Provide a valid webhook url");
 			}
 		}
-		return "https://test.instamojo.com/@arpitneema25/l4532eb22f4a345a9a5ae882d11bd7ad2/";
+		return "evolvetoexcel.com";
 	}
 }

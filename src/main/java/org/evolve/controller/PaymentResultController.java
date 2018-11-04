@@ -22,40 +22,21 @@ import org.evolve.model.Country;
 import org.evolve.service.CountryService;
 
 
-@Path("/countries")
-public class CountryController {
+@Path("/paymentstatus")
+public class PaymentResultController {
 	
 	CountryService countryService=new CountryService();
+
 	
-/*    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-	public List<Country> getCountries(	@QueryParam("from") int from)
-	{	System.out.println(from);
+	   @GET
+	    @Produces(MediaType.TEXT_HTML)
+		public InputStream getResult(	@QueryParam("payment_id") String payment_id,@QueryParam("payment_request_id") String requestId) throws FileNotFoundException
+		{	
 		
-		List<Country> listOfCountries=countryService.getAllCountries();
-		return listOfCountries;
-	}
-*/
-public static void main(String a[]) throws FileNotFoundException {
-	System.out.println("Working Directory = " +
-            System.getProperty("user.dir"));
-	System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
-    	File f = new File("./Success.html");
-    	new FileInputStream(f);
-}
-	
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-	public InputStream getCountries(	@QueryParam("from") int from) throws FileNotFoundException
-	{	System.out.println(from);
-	System.out.println("Working Directory = " +
-            System.getProperty("user.dir"));
-	System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
-	
-    	File f = new File("../webapps/krishna/Successful.html");
-    
-    			 return new FileInputStream(f);
-	}
+	    	File f = new File("../webapps/krishna/Successful.html");
+	    
+	    			 return new FileInputStream(f);
+		}
 
 	@GET
     @Path("/{id}")

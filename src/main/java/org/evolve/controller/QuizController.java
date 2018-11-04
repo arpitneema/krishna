@@ -32,8 +32,8 @@ public class QuizController {
 	public Quiz startQuiz() {
 	//	List<Devotee> listOfCountries = countryService.getAllCountries();
 		
-		return QuizService.createQuiz(new Devotee(3,"ram",44,"ram@sita.com","7897897894"));
-
+	//	return QuizService.createQuiz(new Devotee(3,"ram",44,"ram@sita.com","7897897894"));
+return null;
 	}
 
 	/*

@@ -18,6 +18,7 @@ import org.evolve.model.Devotee;
 import org.evolve.service.CountryService;
 import org.evolve.service.Mailer;
 import org.evolve.service.PaymentService;
+
 @Path("/devotees")
 public class UserController {
 
@@ -32,38 +33,61 @@ public class UserController {
 	 * listOfCountries; }
 	 */
 
-	/*
-	 * @GET
-	 * 
-	 * @Path("/{id}")
-	 * 
-	 * @Produces(MediaType.APPLICATION_JSON) public Country
-	 * getCountryById(@PathParam("id") int id) { return
-	 * countryService.getCountry(id); }
-	 */
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Country getCountryById(@PathParam("id") int id) {
+		System.out.println(id);
+		
+		return null;
+	}
+
+	public static void main(String a[]) {
+		/*Devotee newdevotee = new Devotee(23, "ram", 34, "ramsdf@kumarr.com", "9800899874", "Jounrney of self discovery",
+				"delhi");
+		System.out.println("ra");
+		// Mailer.send("evolvetoexcelteam@gmail.com", "Harekrishna108",
+		// "radheybhardwaj@gmail.com",
+		// "New Devotee registered for JSD sessions", "new registration");
+		PaymentService ps = new PaymentService();
+		// return newDevotee;
+		// Response res=ps.initiatePayment();
+		CustomUrl cm = new CustomUrl(ps.initiatePayment(newdevotee));
+
+		System.out.println("rea");*/
+	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public CustomUrl addDevotee(Devotee newDevotee) {
-		String msg="Names dfsdf"+newDevotee.getName()+" age: "+newDevotee.getAge()+" email: "+newDevotee.getEmail()+" contact"+newDevotee.getPhone();
-		    
+		String msg = "Name " + newDevotee.getName() + " age: " + newDevotee.getAge() + " email: "
+				+ newDevotee.getEmail() + " contact " + newDevotee.getPhone() + " city " + newDevotee.getCity();
+
 		System.out.println(newDevotee.getName());
-		// Mailer.send("radhekrishnaingokul@gmail.com","ramram0788","radheybhardwaj@gmail.com","New Devotee registered for JSD sessions",msg);  
-		    
+		System.out.println(newDevotee.getSessionId());
+		System.out.println(newDevotee.getCity());
+		try {
+
+			Mailer.send("evolvetoexcelteam@gmail.com", "Harekrishna108", "radheybhardwaj@gmail.com",
+					"New Devotee " + newDevotee.getName() + " registered for " + newDevotee.getSessionId(), msg);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		System.out.println(newDevotee.getAge());
-		PaymentService ps=new PaymentService();
-//		return newDevotee;
-	//	Response res=ps.initiatePayment();
+		PaymentService ps = new PaymentService();
+		// return newDevotee;
+		// Response res=ps.initiatePayment();
 		return new CustomUrl(ps.initiatePayment(newDevotee));
 	}
 
-	/*@PUT
-	@Produces(MediaType.APPLICATION_JSON)
-	public Country updateCountry(Country country) {
-		return countryService.updateCountry(country);
-
-	}
-*/
+	/*
+	 * @PUT
+	 * 
+	 * @Produces(MediaType.APPLICATION_JSON) public Country updateCountry(Country
+	 * country) { return countryService.updateCountry(country);
+	 * 
+	 * }
+	 */
 	/*
 	 * @DELETE
 	 * 

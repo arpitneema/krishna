@@ -1,0 +1,7 @@
+<span class="navbar-caption-wrap"><a
+						class="navbar-caption text-primary display-5"
+						style="position: absolute; top: 25px; font-size: 35px;font-style: italic;"
+						href="http://evolvetoexcel.com">EVOLVE</a><a
+						class="navbar-caption text-primary display-5"
+						style="position: relative; left: 0px; top: 19px; font-size: 10px">Spreading
+							the art of excelling</a></span>

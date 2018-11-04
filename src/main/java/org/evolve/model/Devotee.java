@@ -7,12 +7,25 @@ public class Devotee {
 	int age;
 	String email;
 	String phone;
-
+	String sessionId;		
+	String city;
+	public String getSessionId() {
+		return sessionId;
+	}
+	public void setSessionId(String sessionId) {
+		this.sessionId = sessionId;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
 	public Devotee()
 	{
 		super();
 	}
-	public Devotee(int id,String name, int age, String email, String phone) {
+	public Devotee(int id,String name, int age, String email, String phone,String sessionid,String city) {
 		super();
 		this.id=id;
 		
@@ -20,6 +33,8 @@ public class Devotee {
 		this.age = age;
 		this.email = email;
 		this.phone = phone;
+		this.sessionId=sessionid;
+		this.city=city;
 	}
 	public int getId() {
 		return id;
