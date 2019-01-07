@@ -43,12 +43,11 @@
 							email : "",
 							phone : "",
 							city : "",
-							sessionId : ""
+							sessionId : "Journey of Self Discovery"
 						};
 						$scope.makePaymentLable = "Make Payment";
 						$scope.redirecttoPG = function() {
-						  $scope.makePaymentLable = "Redirecting to Payment Gateway";
-						  						  }
+						   }
 						//Now load the data from server
 						//  _refreshDevoteeData();
 
@@ -56,7 +55,8 @@
 						// with the help of id, we are going to find out whether it is put or post operation
 
 						$scope.submitUser = function() {
-
+							 $scope.makePaymentLable = "Redirecting to Payment Gateway";
+		  						
 							var method = "";
 							var url = "";
 							if ($scope.newDevoteeForm.id == -1) {
@@ -83,7 +83,7 @@
 						//                 $scope.deleteCountry = function(country) {
 						//                     $http({
 						//                         method : 'DELETE',
-						//                         url : 'rest/devotees/' + country.id
+						//                         url : 'devotees/' + country.id
 						//                     }).then(_success, _error);
 						//                 };
 
@@ -101,8 +101,8 @@
 							$http(
 									{
 										method : 'GET',
-										// url : 'http://localhost:8080/krishna/rest/countries'
-										url : 'http://ramsiyaram.us-east-2.elasticbeanstalk.com/rest/countries'
+										// url : 'http://localhost:8080/krishna/countries'
+										url : 'http://ramsiyaram.us-east-2.elasticbeanstalk.com/countries'
 									}).then(function successCallback(response) {
 								$scope.devotees = response.data;
 							}, function errorCallback(response) {
@@ -339,9 +339,9 @@ td, th {
 							<div class="col-md-4 multi-horizontal" data-for="phone">
 								<div class="form-group">
 									<label class="form-control-label mbr-fonts-style display-7"
-										for="phone-form1-q">Phone</label> <input type="number"
+										for="phone-form1-q">Phone</label> <input type=""
 										class="form-control" ng-model="newDevoteeForm.phone"
-										data-form-field="Phone" id="phone-form1-q"
+										data-form-field="Phone"
 										>
 								</div>
 							</div>
@@ -417,13 +417,13 @@ td, th {
 				<div class="col-12 col-md-3 mbr-fonts-style display-7">
 					<h5 class="pb-3"></h5>
 					<p class="mbr-text"></p>
-					</span> <!-- <span class="navbar-caption-wrap"><a
+					</span> <span class="navbar-caption-wrap"><a
 						class="navbar-caption text-primary display-5"
 						style="position: absolute; top: 25px; font-size: 35px; font-style: italic;"
 						href="http://evolvetoexcel.com">EVOLVE</a><a
 						class="navbar-caption text-primary display-5"
 						style="position: relative; left: 0px; top: 19px; font-size: 10px">Spreading
-							the art of excelling</a></span> -->
+							the art of excelling</a></span>
 
 				</div>
 			</div>

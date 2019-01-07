@@ -18,6 +18,7 @@ import org.evolve.model.Devotee;
 import org.evolve.service.CountryService;
 import org.evolve.service.Mailer;
 import org.evolve.service.PaymentService;
+import org.evolve.util.MailerThread;
 
 @Path("/devotees")
 public class UserController {
@@ -60,24 +61,17 @@ public class UserController {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	public CustomUrl addDevotee(Devotee newDevotee) {
-		String msg = "Name " + newDevotee.getName() + " age: " + newDevotee.getAge() + " email: "
-				+ newDevotee.getEmail() + " contact " + newDevotee.getPhone() + " city " + newDevotee.getCity();
-
 		System.out.println(newDevotee.getName());
 		System.out.println(newDevotee.getSessionId());
 		System.out.println(newDevotee.getCity());
-		try {
-
-			Mailer.send("evolvetoexcelteam@gmail.com", "Harekrishna108", "radheybhardwaj@gmail.com",
-					"New Devotee " + newDevotee.getName() + " registered for " + newDevotee.getSessionId(), msg);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+		
 		System.out.println(newDevotee.getAge());
 		PaymentService ps = new PaymentService();
 		// return newDevotee;
 		// Response res=ps.initiatePayment();
-		return new CustomUrl(ps.initiatePayment(newDevotee));
+		CustomUrl custUrl=new CustomUrl(ps.initiatePayment(newDevotee));
+		new Thread(new MailerThread(newDevotee)).start();
+		return custUrl;
 	}
 
 	/*

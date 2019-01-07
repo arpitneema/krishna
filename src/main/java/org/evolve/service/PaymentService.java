@@ -78,9 +78,9 @@ public class PaymentService {
 		}else 
 
 			order.setAmount(500.00);
-		order.setDescription("Initiatng Payment for"+ newDevotee.getEmail());
-		order.setRedirectUrl("http://www.evolvetoexcel.com/makepayment/afterpayment");
-		order.setWebhookUrl("http://www.evolvetoexcel.com/makepayment/afterpayment");
+		order.setDescription(newDevotee.getSessionId()+ " Seminar");
+		order.setRedirectUrl("http://www.evolvetoexcel.com/rest/paymentstatus");
+		order.setWebhookUrl("http://www.evolvetoexcel.com/rest/paymentstatus");
 		order.setTransactionId(newDevotee.getPhone()+randomNum.nextInt(1000));
 		System.out.println(order.toString());
 		//for test url

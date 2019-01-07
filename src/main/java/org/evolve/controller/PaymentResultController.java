@@ -20,20 +20,29 @@ import javax.ws.rs.core.MediaType;
 
 import org.evolve.model.Country;
 import org.evolve.service.CountryService;
+import org.omg.CORBA.TRANSACTION_MODE;
 
 
 @Path("/paymentstatus")
 public class PaymentResultController {
 	
 	CountryService countryService=new CountryService();
-
+public static void main(String a[]) {
+}
 	
 	   @GET
 	    @Produces(MediaType.TEXT_HTML)
-		public InputStream getResult(	@QueryParam("payment_id") String payment_id,@QueryParam("payment_request_id") String requestId) throws FileNotFoundException
-		{	
-		
-	    	File f = new File("../webapps/krishna/Successful.html");
+		public InputStream getResult(	@QueryParam("id") String id,@QueryParam("transaction_id") String transaction_id,@QueryParam("payment_id") String payment_id) throws FileNotFoundException
+		{	System.out.println("ram siya ram");
+		   System.out.println(payment_id);
+		System.out.println(id);
+		System.out.println(transaction_id);
+		System.out.println(Paths.get(".").toAbsolutePath().normalize().toString());
+			System.out.println(System.getProperty("user.dir"));
+			String as[]= {};
+			RecursiveFileDisplay.main(as);
+
+	    	File f = new File("/var/lib/tomcat8/webapps/ROOT/Successful.html");
 	    
 	    			 return new FileInputStream(f);
 		}
